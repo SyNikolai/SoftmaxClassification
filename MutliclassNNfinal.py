@@ -41,7 +41,7 @@ class random_data():
             
 D1 = random_data(6,  0,   0.1)        # Create 2 sets of data, each set represents a different class of data
 D2 = random_data(5,  1,   0.1)
-features  = np.vstack(D1.features + D2.features)                 #make this part better 
+features  = np.vstack(D1.features + D2.features)                 
 labels_x  = features[:,2]
 labels_y  = features[:,3]
 labels    = np.column_stack((labels_x,labels_y))
@@ -153,22 +153,20 @@ Moments       = [np.zeros_like(m) for m in parameters]
 # Moments = [Moments Hidden weights, Moments Hidden bias, Moments Output weights, Moments Output bias]
 
 
+
+# Part D: Calculation of gradient descent and ploting the results
 # Gradient descent
-steps               = 300                                                         # number of gradient descent updates
-#new_learning_rate   = learning_rate / steps                                       # update learning rate 
+steps               = 300                                                         # number of gradient descent update
 
-
-### DEBUGGING MY ERROR IS INCREASING -> FIX IT  ###
 # Save loss in each step 
-loss_list           = [loss(nn(features, *parameters), labels)]         # WORKS FINE
+loss_list           = [loss(nn(features, *parameters), labels)]         
 
 for i in range(steps):
     Moments         = momentum_calc(features, labels, parameters, Moments, momentum, learning_rate)  
-    Wh, bh, Wo, bo  = new_parameters(parameters, Moments)                         # HERE!!change the variables into the structures
+    Wh, bh, Wo, bo  = new_parameters(parameters, Moments)                        
     layer12.update(Wh,bh)
     layer23.update(Wo,bo)
     loss_list.append(loss(nn(features, layer12.weights, layer12.bias, layer23.weights, layer23.bias), labels))
-
 
 # Plot the loss over the iterations
 fig = plt.figure(figsize = (6, 4))
@@ -181,19 +179,18 @@ fig.subplots_adjust(bottom = 0.2)
 plt.show()
 
 
+
+# Part E: Create a classification plane and plot the boundary that separates the two different data types
 # Plot the resulting decision boundary
-# Generate a grid over the input space to plot the color of the
-#  classification at that grid point
-nb_of_xs = 400
-xs1 = np.linspace(-2, 2, num=nb_of_xs)
-xs2 = np.linspace(-2, 2, num=nb_of_xs)
+points = 400
+xs1 = np.linspace(-2, 2, num = points)
+xs2 = np.linspace(-2, 2, num = points)
 xx, yy = np.meshgrid(xs1, xs2) # create the grid
 # Initialize and fill the classification plane
 classification_plane = np.zeros((nb_of_xs, nb_of_xs))
-for i in range(nb_of_xs):
-    for j in range(nb_of_xs):
-        pred = prediction(
-            np.asarray([xx[i,j], yy[i,j]]), layer12.weights, layer12.bias, layer23.weights, layer23.bias)
+for i in range(points):
+    for j in range(points):
+        pred = prediction(np.asarray([xx[i,j], yy[i,j]]), layer12.weights, layer12.bias, layer23.weights, layer23.bias)
         classification_plane[i,j] = pred[0, 0]
 # Create a color map to show the classification colors of each grid point
 plt.figure(figsize=(6, 4))
