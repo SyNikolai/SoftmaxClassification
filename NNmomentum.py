@@ -101,7 +101,7 @@ def hidden_gradient_weight(feature, hidden_error):
     return feature.T @  hidden_error
 
 def hidden_gradient_bias(hidden_error):
-    """ Gradient for the bias parameters at the output layer """
+    """ Gradient for the bias parameters at the hidden layer """
     return  np.sum(hidden_error, axis = 0, keepdims = True)
 
 class topology():
