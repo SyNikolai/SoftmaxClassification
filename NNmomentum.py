@@ -161,7 +161,7 @@ loss_list           = [loss(nn(features, *parameters), labels)]
 for i in range(steps):
     Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias],
                                     Moments, momentum, learning_rate)  
-    Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                         # HERE!!change the variables into the structures
+    Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                        
     layer12.update(Wh,bh)
     layer23.update(Wo,bo)
     loss_list.append(loss(nn(features, layer12.weights, layer12.bias, layer23.weights, layer23.bias), labels))
