@@ -9,7 +9,7 @@ np.set_printoptions(threshold= sys.maxsize)
 
 # Part A: Random data creation
 class random_data():
-    """ Generates random data features (random x, random y) in the format of a list of lists """
+    """ Generates random data features (random x, random y) and its labels (label_x, label_y)""
 
     def __init__(self, observations, mu, sigma):
 
