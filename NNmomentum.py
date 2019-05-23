@@ -29,8 +29,7 @@ class random_data():
 
     def labeling_method(self):        
         """ method to assign a class to the generated data """
-        """ euclidean distance is considered as the criteria here """
-        #if np.sqrt(self.x_feature*self.x_feature + self.y_feature*self.y_feature) < 0.3 :
+        """ distance from axis start is considered as the criteria here """
         if self.x_feature + self.y_feature > 0.6 or self.x_feature + self.y_feature < 0.2:
             self.label_x = 1
             self.label_y = 0
@@ -40,12 +39,9 @@ class random_data():
             
 D1 = random_data(500,  0,   0.3)                            # Create 2 sets of data, each set represents a different class of data
 D2 = random_data(500,  2,   0.3)
-features  = np.vstack(D1.features + D2.features)                 #make this part better 
-labels_x  = features[:,2]
-labels_y  = features[:,3]
-labels    = np.column_stack((labels_x,labels_y))
-
-features  = np.delete(features, 3, 1)
+features  = np.vstack(D1.features + D2.features)            # Stack the features 
+labels    = np.column_stack((features[:,2],features[:,3]))  # Create a list containing only the labels for each element
+features  = np.delete(features, 3, 1)                       # we dont need the labels in the features list anymore
 features  = np.delete(features, 2, 1)
 
 # Plot the data
@@ -119,8 +115,8 @@ class topology():
         self.weights = new_weights
         self.bias    = new_bias
 
-def backpropogation(x, target, hidden_weight, hidden_bias, output_weight, output_bias):
-    """ Back propogation function """
+def backpropagation(x, target, hidden_weight, hidden_bias, output_weight, output_bias):
+    """ Back propagation function """
     H                   = hidden_layer(x, hidden_weight, hidden_bias)           # Update Hidden layer parameters
     O                   = output_layer(H, output_weight, output_bias)           # Update Output layer parameters
     oe                  = output_error(O, target)                               # Update the output error
@@ -135,7 +131,7 @@ def backpropogation(x, target, hidden_weight, hidden_bias, output_weight, output
 def momentum_calc(x, target, parameters, moments, momentum, learning_rate):
     """ Momentum calculation """
     # parameters = [hidden_layer_weights, hidden_layer_bias, output_layer_weights, output_layer_bias]
-    Jacobis = backpropogation(x, target, *parameters)
+    Jacobis = backpropagation(x, target, *parameters)
     return [momentum * m - learning_rate * j for m, j in zip(moments, Jacobis)]
 
 def new_parameters(parameters, moments):
@@ -163,7 +159,8 @@ steps               = 1000                                                      
 loss_list           = [loss(nn(features, *parameters), labels)]       
 
 for i in range(steps):
-    Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments, momentum, learning_rate)  
+    Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias],
+                                    Moments, momentum, learning_rate)  
     Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                         # HERE!!change the variables into the structures
     layer12.update(Wh,bh)
     layer23.update(Wo,bo)
