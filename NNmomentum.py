@@ -154,13 +154,10 @@ Moments                             = [np.zeros_like(m) for m in parameters]
 
 # Gradient descent
 steps               = 1000                                                         # number of gradient descent updates
-#new_learning_rate   = learning_rate / steps                                       # update learning rate 
 # Save loss in each step 
 loss_list           = [loss(nn(features, *parameters), labels)]       
-
 for i in range(steps):
-    Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias],
-                                    Moments, momentum, learning_rate)  
+    Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments, momentum, learning_rate)  
     Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                        
     layer12.update(Wh,bh)
     layer23.update(Wo,bo)
