@@ -16,7 +16,7 @@ class random_data():
         self.features                = []                           # list of lists to save the observations (random data)
         self.mu                      = mu                           # center data around mu
         self.observations            = observations                 # number of observations (number of rows)
-        self.sigma                   = sigma                        # standard deviation ("noise of the data")
+        self.sigma                   = sigma                        # standard deviation 
 
         for i in range(self.observations):
                     self.x_feature = self.random()
