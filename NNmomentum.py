@@ -42,7 +42,7 @@ D2 = random_data(500,  2,   0.3)
 features  = np.vstack(D1.features + D2.features)            # Stack the features 
 labels    = np.column_stack((features[:,2],features[:,3]))  # Create a list containing only the labels for each element
 features  = np.delete(features, 3, 1)                       # we dont need the labels in the features list anymore
-features  = np.delete(features, 2, 1)
+features  = np.delete(features, 2, 1)                       # comment: this part is messy, it will be revised in the future
 
 # Plot the data
 plt.figure(figsize = (8, 6))    
