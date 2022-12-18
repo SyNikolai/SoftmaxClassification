@@ -1,8 +1,6 @@
 # SoftmaxClassification
 A neural network that classifies random 2-dimensional data with a softmax output classifier. 
 
-# Table of contents
-
  - [Introduction](#introduction)
 
     What does softmax mean?
