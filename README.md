@@ -1,7 +1,7 @@
 # SoftmaxClassification
 A neural network that classifies random 2-dimensional data with a softmax output classifier. 
 
- - [Introduction]
+ - Introduction
 
     What does softmax mean?
     
@@ -10,11 +10,11 @@ A neural network that classifies random 2-dimensional data with a softmax output
     In this project, a neural network was built from scratch following a traditional algorithmic recipe, using a softmax function
     as the activation function.
 
- - [Data Generator]
+ - Data Generator
     
     For the purposes of the project, a dummy data class was created, which can be found in the data_generator.py script. Running that script will result in a distribution of data of two different categories (labeled). The distribution can be easily customized on the script for futher exploration.
         
- - [Softmax Script]
+ - Softmax Script
     
     The Softmax_main.py script contains all the necessery fucntion for building a neural network, such as activation function, loss calculation, gradient descent calculation, momentum calculation, a topology of the neural network and plotting functions.
 
