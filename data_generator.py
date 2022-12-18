@@ -8,7 +8,7 @@ np.random.seed(12)
 np.set_printoptions(threshold= sys.maxsize)
 
 
-#Random data generator (data clustered in specified space)
+# Random data generator (data clustered in specified space)
 class random_data():
     """ Generates random data features (random x, random y) and its labels (label_x, label_y) """
 
@@ -44,16 +44,13 @@ D2 = random_data(500,  2,   0.3)
 features  = np.vstack(D1.features + D2.features)            # Stack the features 
 labels    = np.column_stack((features[:,2],features[:,3]))  # Create a list containing only the labels for each element
 features  = np.delete(features, 3, 1)                       # we dont need the labels in the features list anymore
-features  = np.delete(features, 2, 1)                       # comment: this part is messy, it will be revised in the future
+features  = np.delete(features, 2, 1)                       
 
 def plot_data():
     plt.figure(figsize = (8, 6))
-    plt.title('Data Visualization')    
-    plt.scatter(features[:,0], features[:,1], marker = 'o', c = labels[:,0], cmap = 'plasma', s = 70, alpha = 0.6)  
-    plt.xlabel('x feature', fontsize = 12)
-    plt.ylabel('y feature', fontsize = 12)
-    fig = plt.gcf()
-    fig.canvas.set_window_title('Data generator')
+    ax = sns.scatterplot(x = features[:,0], y = features[:,1], hue = labels[:,0])
+    ax.set(title = 'Data Visualization', xlabel = 'x feature', ylabel = 'y feature')
     plt.show()
+
 if __name__ == '__main__':
  plot_data()

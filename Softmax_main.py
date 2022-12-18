@@ -1,10 +1,8 @@
 import sys
 import numpy as np  
 import matplotlib.pyplot as plt
-import seaborn as sns  
 from data_generator import features, labels
 
-sns.set_style('darkgrid')
 np.set_printoptions(threshold= sys.maxsize) 
 
 # Part A: Methods' definitions
@@ -94,35 +92,13 @@ def new_parameters(parameters, moments):
     """ Update the parameters """
     return [a + b for a,b in zip(parameters, moments)]
 
-# Part B: Create and Initialize the Neural Net and its parameters
-if __name__ == '__main__':
-    number_of_input_neurons             = 2
-    number_of_hidden_neurons            = 3
-    number_of_output_neurons            = 2
-    init_parameter                      = 1
-    layer12                             = topology(number_of_input_neurons,  number_of_hidden_neurons, init_parameter)                                               
-    layer23                             = topology(number_of_hidden_neurons, number_of_output_neurons, init_parameter)                                               
-    learning_rate                       = 0.0001                                                          # set the learning rate of the neural net
-    momentum                            = 0.9                                                             # set the momentum value
-    parameters                          = [layer12.weights, layer12.bias, layer23.weights, layer23.bias]  # define the list of parameters
-    Moments                             = [np.zeros_like(m) for m in parameters]                                     
-
-    # Gradient descent
-    steps               = 1000                                                         # number of gradient descent updates
-    # Save loss in each step 
-    loss_list           = [loss(nn(features, *parameters), labels)]       
-    for i in range(steps):
-        Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments, momentum, learning_rate)  
-        Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                        
-        layer12.update(Wh,bh)
-        layer23.update(Wo,bo)
-        loss_list.append(loss(nn(features, layer12.weights, layer12.bias, layer23.weights, layer23.bias), labels))
-
+def plot_loss(loss_list):
+    """ Function to plot loss over iterations of gradient descent """
     # Plot the loss over the iterations
     fig = plt.figure(figsize = (6, 4))
     plt.plot(loss_list, 'b-')
     plt.xlabel('Iteration')
-    plt.ylabel('$Loss$', fontsize = 12)
+    plt.ylabel('Loss', fontsize = 12)
     plt.title('Loss over each iteration')
     plt.xlim(0, 300)
     fig.subplots_adjust(bottom = 0.2)
@@ -130,7 +106,8 @@ if __name__ == '__main__':
     fig.canvas.set_window_title('Gradient descent')
     plt.show()
 
-    # Plot the resulting decision boundary
+def decision_boundary(features):
+     # Plot the resulting decision boundary
     grid_points = 400
     grid_x = np.linspace(-10, 10, num = grid_points)
     grid_y = np.linspace(-10, 10, num = grid_points)
@@ -155,4 +132,36 @@ if __name__ == '__main__':
     plt.title('Classification plane for the 2 types of data')
     fig = plt.gcf()
     fig.canvas.set_window_title('Classified Data')
-    plt.show()
+    plt.show() 
+
+
+# Part B: Create and Initialize the Neural Net and its parameters
+if __name__ == '__main__':
+
+    number_of_input_neurons             = 2
+    number_of_hidden_neurons            = 3
+    number_of_output_neurons            = 2
+    init_parameter                      = 1
+    layer12                             = topology(number_of_input_neurons,  number_of_hidden_neurons, init_parameter)                                               
+    layer23                             = topology(number_of_hidden_neurons, number_of_output_neurons, init_parameter)                                               
+    learning_rate                       = 0.0001                                                          # set the learning rate of the neural net
+    momentum                            = 0.9                                                             # set the momentum value
+    parameters                          = [layer12.weights, layer12.bias, layer23.weights, layer23.bias]  # define the list of parameters
+    Moments                             = [np.zeros_like(m) for m in parameters]                                     
+
+    # Gradient descent
+    steps               = 1000                                                         # number of gradient descent updates
+    # Save loss in each step 
+    loss_list           = [loss(nn(features, *parameters), labels)]       
+    for i in range(steps):
+        Moments         = momentum_calc(features, labels, [layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments, momentum, learning_rate)  
+        Wh, bh, Wo, bo  = new_parameters([layer12.weights, layer12.bias, layer23.weights, layer23.bias], Moments)                        
+        layer12.update(Wh,bh)
+        layer23.update(Wo,bo)
+        loss_list.append(loss(nn(features, layer12.weights, layer12.bias, layer23.weights, layer23.bias), labels))
+
+    # Plot loss 
+    plot_loss(loss_list)
+
+    # Plot decision boundary
+    decision_boundary(features)
