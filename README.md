@@ -16,7 +16,7 @@ A neural network that classifies random 2-dimensional data with a softmax output
         
  - Softmax Script
     
-    The Softmax_main.py script contains all the necessery fucntion for building a neural network, such as activation function, loss calculation, gradient descent calculation, momentum calculation, a topology of the neural network and plotting functions.
+    The Softmax_main.py script contains all the necessery methods for building a neural network, such as activation function, loss calculation, gradient descent calculation, momentum calculation, a topology of the neural network and plotting functions.
 
     Simply running the script should produce a loss graph and a decision boundary for the data generated previously.
 
